@@ -1,23 +1,29 @@
 package com.example.spring_controller_basic.controller;
 
-import org.apache.catalina.connector.Response;
+import org.apache.tomcat.util.file.ConfigurationSource.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.spring_controller_basic.dto.Human;
+import com.example.spring_controller_basic.naver_util.NaverTTS;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("api")
 public class MyController {
     
-    @GetMapping("/getRequest")
+    @GetMapping("getRequest")
     public String getRequest(Human human) {
         System.out.println("name: " + human.getName() + ", age: " + human.getAge());
         String response = "Hello " + human.getName() + ", your age is " + human.getAge();
@@ -56,6 +62,5 @@ public class MyController {
                 String result = "400 에러 발생!!! '정상' 또는 '에러'라고 입력해주세요.";
                 return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        
     }
 }
