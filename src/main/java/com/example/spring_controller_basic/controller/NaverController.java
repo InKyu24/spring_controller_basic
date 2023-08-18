@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class NaverController {
     @PostMapping("csr")
     public ResponseEntity<?> csr(HttpServletRequest req, @RequestBody MultipartFile uploadFile) {
-    	String uploadPath = req.getServletContext().getRealPath("/upload");
+        String uploadPath = req.getServletContext().getRealPath("/upload");
         
         String filename = uploadFile.getOriginalFilename();
         String filepath = uploadPath + File.separator + filename;
@@ -70,9 +70,25 @@ public class NaverController {
         return new ResponseEntity<>(new ByteArrayResource(speechData), HttpStatus.OK);
     }
 
-    // @PostMapping("ocr")
-    // public ResponseEntity<?> ocr(@RequestParam String filePath) {
-    //     String message = Naver_API.processOCR(filePath);
-    //     return new ResponseEntity<>(message, HttpStatus.OK);
-    // }
+    @PostMapping("ocr")
+    public ResponseEntity<?> ocr(HttpServletRequest req, @RequestBody MultipartFile uploadFile) {
+        String uploadPath = req.getServletContext().getRealPath("/upload");
+        
+        String filename = uploadFile.getOriginalFilename();
+        String filepath = uploadPath + File.separator + filename;
+        System.out.println(filepath);
+        String message;
+        try {
+			BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+			os.write(uploadFile.getBytes());
+			os.close();
+			
+		} catch (Exception e) {			
+			e.printStackTrace();		
+            message = "fail";
+			return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+        message = Naver_API.processOCR(filepath);
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
 }
