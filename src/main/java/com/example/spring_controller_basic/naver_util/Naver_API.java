@@ -28,7 +28,7 @@ public class Naver_API{
         StringBuffer result = new StringBuffer();
         
         try {
-            String language = "Kor"; // 언어 코드 ( Kor, Jpn, Eng, Chn )
+            String language = "Eng"; // 언어 코드 ( Kor, Jpn, Eng, Chn )
             String apiURL = "https://naveropenapi.apigw.ntruss.com/recog/v1/stt?lang=" + language;
             URL url = new URL(apiURL);
 
@@ -68,6 +68,7 @@ public class Naver_API{
         } catch (Exception e) {
             System.out.println(e);
         }
+        System.out.println(result.toString());
         return result.toString();
     }
 
